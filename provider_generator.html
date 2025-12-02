@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Allowlist JSON Generator</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #ccc; max-width: 800px; margin: 0 auto; }
+        .container { background: #222; padding: 20px; border-radius: 8px; border: 1px solid #333; }
+        h2 { color: #0f0; margin-top: 0; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #fff; }
+        input, select, textarea { 
+            width: 100%; padding: 10px; margin-top: 5px; 
+            background: #000; color: #fff; border: 1px solid #444; 
+            box-sizing: border-box; font-family: monospace;
+        }
+        textarea { height: 150px; }
+        button { 
+            margin-top: 20px; padding: 12px 20px; cursor: pointer; 
+            background: #005500; color: white; border: 1px solid #0f0; 
+            font-size: 16px; font-weight: bold; width: 100%;
+        }
+        button:hover { background: #007700; }
+        #output { 
+            margin-top: 20px; background: #111; padding: 15px; 
+            border: 1px solid #555; color: #0ff; white-space: pre-wrap; 
+        }
+        .hint { font-size: 0.8em; color: #777; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📝 Генератор JSON для providers.json</h2>
+        <p class="hint">Используйте этот инструмент, чтобы подготовить данные для Pull Request.</p>
+        
+        <label>1. Название Провайдера / Источник:</label>
+        <input type="text" id="provider" placeholder="Например: VK Cloud, Selectel, MyHomeNet...">
+        
+        <label>2. Список подсетей (CIDR):</label>
+        <p class="hint">Вставьте список IP или диапазонов, каждый с новой строки.</p>
+        <textarea id="cidrs" placeholder="10.20.30.0/24
+192.168.1.0/24
+..."></textarea>
+        
+        <label>3. Приоритет проверки:</label>
+        <select id="priority">
+            <option value="1">1 - Низкий (Редко)</option>
+            <option value="5" selected>5 - Обычный (Стандарт)</option>
+            <option value="10">10 - Высокий (Экспресс-тест)</option>
+        </select>
+        
+        <label>4. Комментарий (для админа):</label>
+        <input type="text" id="comment" placeholder="Откуда этот список? (необязательно)">
+        
+        <button onclick="generateJSON()">⚙️ Сгенерировать JSON</button>
+        
+        <label>Результат (Копируйте и вставляйте в providers.json):</label>
+        <textarea id="output" readonly></textarea>
+        <button onclick="copyToClipboard()" style="background: #333; border-color: #666; margin-top: 5px;">📋 Скопировать в буфер</button>
+    </div>
+
+    <script>
+        function generateJSON() {
+            const provider = document.getElementById('provider').value.trim();
+            const rawCidrs = document.getElementById('cidrs').value;
+            const priority = parseInt(document.getElementById('priority').value);
+            const comment = document.getElementById('comment').value.trim();
+
+            if (!provider) { alert("Укажите название провайдера!"); return; }
+            if (!rawCidrs) { alert("Список подсетей пуст!"); return; }
+
+            // Разбиваем строки и чистим
+            const lines = rawCidrs.split('\n');
+            const result = [];
+
+            lines.forEach(line => {
+                let cidr = line.trim();
+                if (!cidr) return; // Пропуск пустых строк
+
+                // Простейшая валидация (если юзер забыл маску, добавляем /24 или /32?)
+                // Пока оставим как есть, валидатор GitHub Actions проверит формат.
+                
+                const entry = {
+                    provider: provider,
+                    cidr: cidr,
+                    priority: priority
+                };
+                if (comment) entry.comment = comment;
+                
+                result.push(entry);
+            });
+
+            // Красивый вывод JSON
+            const jsonStr = JSON.stringify(result, null, 2);
+            document.getElementById('output').value = jsonStr;
+        }
+
+        function copyToClipboard() {
+            const copyText = document.getElementById("output");
+            copyText.select();
+            document.execCommand("copy");
+            alert("JSON скопирован! Теперь добавьте его в массив файла providers.json");
+        }
+    </script>
+</body>
+</html>
