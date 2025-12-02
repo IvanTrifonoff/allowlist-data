@@ -25,6 +25,7 @@
             border: 1px solid #555; color: #0ff; white-space: pre-wrap; 
         }
         .hint { font-size: 0.8em; color: #777; }
+        .tip { color: #ff0; font-size: 0.9em; margin-top: 5px; display: block;}
     </style>
 </head>
 <body>
@@ -37,15 +38,13 @@
         
         <label>2. Список подсетей (CIDR):</label>
         <p class="hint">Вставьте список IP или диапазонов, каждый с новой строки.</p>
-        <textarea id="cidrs" placeholder="10.20.30.0/24
-192.168.1.0/24
-..."></textarea>
+        <span class="tip">💡 Совет: Поставьте <b>*</b> перед подсетью, чтобы пометить её как приоритетную (Priority 10).</span>
+        <textarea id="cidrs" placeholder="10.20.30.0/24&#10;*192.168.1.0/24  &lt;-- Высокий приоритет&#10;172.16.0.0/12"></textarea>
         
-        <label>3. Приоритет проверки:</label>
-        <select id="priority">
+        <label>3. Приоритет по умолчанию (для остальных):</label>
+        <select id="default_priority">
             <option value="1">1 - Низкий (Редко)</option>
             <option value="5" selected>5 - Обычный (Стандарт)</option>
-            <option value="10">10 - Высокий (Экспресс-тест)</option>
         </select>
         
         <label>4. Комментарий (для админа):</label>
@@ -62,23 +61,32 @@
         function generateJSON() {
             const provider = document.getElementById('provider').value.trim();
             const rawCidrs = document.getElementById('cidrs').value;
-            const priority = parseInt(document.getElementById('priority').value);
+            const defaultPriority = parseInt(document.getElementById('default_priority').value);
             const comment = document.getElementById('comment').value.trim();
 
             if (!provider) { alert("Укажите название провайдера!"); return; }
             if (!rawCidrs) { alert("Список подсетей пуст!"); return; }
 
-            // Разбиваем строки и чистим
             const lines = rawCidrs.split('\n');
             const result = [];
 
             lines.forEach(line => {
-                let cidr = line.trim();
-                if (!cidr) return; // Пропуск пустых строк
+                let cleanLine = line.trim();
+                if (!cleanLine) return; 
 
-                // Простейшая валидация (если юзер забыл маску, добавляем /24 или /32?)
-                // Пока оставим как есть, валидатор GitHub Actions проверит формат.
+                let priority = defaultPriority;
                 
+                // Проверка на * (приоритет)
+                if (cleanLine.startsWith('*') || cleanLine.endsWith('*')) {
+                    priority = 10;
+                    cleanLine = cleanLine.replace(/\*/g, '').trim();
+                }
+                
+                // Очистка от мусора (комментарии после # или пробела, если CIDR в начале)
+                // Простейшая эвристика: берем первое слово
+                const parts = cleanLine.split(/[\s#]+/);
+                let cidr = parts[0];
+
                 const entry = {
                     provider: provider,
                     cidr: cidr,
@@ -89,7 +97,9 @@
                 result.push(entry);
             });
 
-            // Красивый вывод JSON
+            // Сортировка: Приоритетные (10) сверху
+            result.sort((a, b) => b.priority - a.priority);
+
             const jsonStr = JSON.stringify(result, null, 2);
             document.getElementById('output').value = jsonStr;
         }
