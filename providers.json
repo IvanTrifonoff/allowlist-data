@@ -1,0 +1,8 @@
+[
+  {
+    "provider": "Test Provider",
+    "cidr": "1.1.1.0/24",
+    "priority": 1,
+    "comment": "Example entry"
+  }
+]

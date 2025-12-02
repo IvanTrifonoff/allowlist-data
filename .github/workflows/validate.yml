@@ -1,0 +1,33 @@
+name: Validate Providers JSON
+on:
+  pull_request:
+    paths: ['providers.json']
+  push:
+    branches: ['main']
+    paths: ['providers.json']
+
+jobs:
+  check-json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Validate JSON and CIDR
+        run: |
+          python3 -c "
+          import json, ipaddress, sys
+          try:
+              with open('providers.json', 'r') as f:
+                  data = json.load(f)
+              if not isinstance(data, list): raise ValueError('Root must be a list')
+              for e in data:
+                  if not all(k in e for k in ('provider', 'cidr')): raise ValueError(f'Missing fields: {e}')
+                  ipaddress.ip_network(e['cidr'])
+              print('✅ Valid')
+          except Exception as e:
+              print(f'❌ Error: {e}')
+              sys.exit(1)
+          "
