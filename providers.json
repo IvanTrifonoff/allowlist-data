@@ -108,5 +108,131 @@
     "provider": "Ya-cloud",
     "cidr": "213.165.192.0/19",
     "priority": 5
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "212.164.136.0/21",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "185.178.208.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "91.221.164.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "185.169.155.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "185.80.234.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "185.215.4.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "109.238.90.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "89.169.164.88",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "194.190.77.89",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "192.232.150.2",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "91.207.59.18",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "194.190.77.10",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "95.181.181.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "84.47.176.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "83.69.192.0/19",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "178.248.234.0/23",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "62.33.180.30",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "62.33.180.29",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "62.33.180.28",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "82.202.245.0/24",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
+  },
+  {
+    "provider": "Quince_WhiteList",
+    "cidr": "94.26.244.0/22",
+    "priority": 5,
+    "comment": "Третий список мин цифр"
   }
 ]
