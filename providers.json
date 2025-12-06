@@ -235,4 +235,24 @@
     "priority": 5,
     "comment": "Третий список мин цифр"
   }
+  {
+    "provider": "MTS-cloud",
+    "cidr": "62.113.75.0/24",
+    "priority": 5
+  },
+  {
+    "provider": "MTS-cloud",
+    "cidr": "188.93.54.0/24",
+    "priority": 5
+  },
+  {
+    "provider": "MTS-cloud",
+    "cidr": "178.236.26.0/24",
+    "priority": 5
+  },
+  {
+    "provider": "MTS-cloud",
+    "cidr": "178.236.27.0/24",
+    "priority": 5
+  }
 ]
